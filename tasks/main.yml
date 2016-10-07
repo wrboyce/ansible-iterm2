@@ -1,0 +1,23 @@
+---
+- name: install App
+  homebrew_cask: name=iterm2 state=present
+  tags: [iterm2, install]
+
+- name: enable automatic updates
+  osx_defaults: domain=com.googlecode.iterm2 key=SUEnableAutomaticChecks type=bool value=true
+  tags: [iterm2, config]
+
+- name: set custom prefs folder
+  osx_defaults: domain=com.googlecode.iterm2 key=PrefsCustomFolder type=string value="{{ iterm2_prefs_folder }}"
+  when: iterm_prefs_folder is defined
+  tags: [iterm2, config]
+
+- name: enable custom prefs folder
+  osx_defaults: domain=com.googlecode.iterm2 key=LoadPrefsFromCustomFolder type=bool value=true
+  when: iterm_prefs_folder is defined
+  tags: [iterm2, config]
+
+- name: disable custom prefs folder
+  osx_defaults: domain=com.googlecode.iterm2 key=LoadPrefsFromCustomFolder type=bool value=true
+  when: iterm_prefs_folder is not defined
+  tags: [iterm2, config]
